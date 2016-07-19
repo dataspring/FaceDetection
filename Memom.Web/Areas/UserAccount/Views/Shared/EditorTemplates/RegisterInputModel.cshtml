@@ -1,0 +1,8 @@
+﻿@model MemomMvc52.Areas.UserAccount.Models.RegisterInputModel
+
+@{
+    var thisPath = Path.GetDirectoryName(this.VirtualPath);
+    var partial = "Object.cshtml";
+    var path = Path.Combine(thisPath, partial);
+}
+@Html.Partial(path, Model)

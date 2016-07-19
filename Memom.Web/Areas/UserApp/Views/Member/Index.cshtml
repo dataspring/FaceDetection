@@ -1,0 +1,70 @@
+﻿@model PagedList.IPagedList<Member>
+@using PagedList.Mvc;
+@using Memom.Entities.Models;
+@{
+    ViewBag.Title = "Manage Members";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<ul class="inline-list">
+    <li><h3>Manage Members</h3></li>
+    <li><a href="/userapp/member/add" class="button small">Add</a></li>
+</ul>
+
+<div class="row">
+    <div class="small-12 medium-8 medium-centered large-6 large-centered columns">
+        @{
+            if (@Model.PageCount <= 0)
+            {
+                <div class="card">
+                    <img src="~/UserContent/Member/FaceTagAll1.png" />
+                    <div class="card-divider">
+                        There are no family members yet!
+                    </div>
+                    <div class="card-section">
+                        <h4>Please add a family member to start intelligent face identification and tagging</h4>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <ul class="no-bullet">
+                @foreach (var item in Model) {
+                    <li>
+                        <div class="row  v-align align-center">
+                            <div class="small-3 medium-3 columns">
+                                <img src="@(item.FolderPath + item.FaceImage)" />
+                            </div>
+                            <div class="small-4  medium-5  columns">
+                                <div>
+                                    <h6 class="strong">@item.DisplayName</h6>
+                                    <h6 class="strong">@Html.ValueFor(modelItem => item.DateOfBirth, "{0:dd MMM yyyy}")</h6>
+                                </div>
+                            </div>
+                            <div class="small-2 medium-2 columns">
+                                <a style="pa" href="/userapp/member/remove?memberid=@item.Key">
+                                    <p class="show-for-medium-up">Remove</p>
+                                    <img src="~/Content/images/Trash48.png" />
+                                </a>
+                            </div>
+                            <div class="small-2 medium-2 columns">
+                                <a href="/userapp/member/viewstatus?memberid=@item.Key">
+                                    <p class="show-for-medium-up">View</p>
+                                    <img src="~/Content/images/ShowArw48.png" />
+                                </a>
+                            </div>
+                        </div>
+                    </li>
+                    <hr />
+                }
+
+                </ul>
+            }
+
+        }
+
+
+
+    </div>
+
+</div>

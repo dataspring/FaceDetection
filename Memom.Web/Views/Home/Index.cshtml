@@ -1,0 +1,56 @@
+﻿
+@{
+    ViewBag.Title = "Memom Face Intelligence";
+    Layout = "~/Views/Shared/_LayoutLanding.cshtml";
+}
+
+
+<div class="row" > <!--style="background-image: url('../../Content/images/babywithflower.jpg');"-->
+    <div class="small-12 medium-9 medium-centered large-10 large-centered columns" >
+
+        <!-- Content -->
+        <div class="row show-for-small-down">
+            <div class="small-11 columns small-centered">
+                <h3 class="pad-top-left-10 pad-topbotright-10 mem-color">Moment to memory</h3>
+                <h4 class="pad-top-left-10 pad-topbotright-10 mem-color">Face detection and image recognition to intelligently tag your loved ones</h4>
+                <div class="mem-pad-top-bot-10"></div>
+                <a href="@Url.Action("Index", "Login", new { area = "UserAccount"})" class="button expand">Login</a>
+                <a href="@Url.Action("Index", "Register", new { area = "UserAccount" })" class="button expand">Register</a>
+            </div>
+        </div>
+
+        <div class="row show-for-medium-only">
+            <div class="medium-4 columns">
+                <div class="mem-pad-top-bot-50"></div>
+                <img src="~/Content/images/memom_logo.png" />
+                <div class="mem-pad-top-bot-30"></div>
+                <div class="row"><a href="@Url.Action("Index", "Login", new { area = "UserAccount"})" class="button large left">Login</a></div>
+                <div class="row"><a href="@Url.Action("Index", "Register", new { area = "UserAccount" })" class="button large left">Register</a></div>
+            </div>
+            <div class="medium-8 columns"></div>
+        </div>
+
+       
+
+        <div class="row show-for-large-up">
+            <div class="large-8 columns"></div>
+            <div class="large-4 columns">
+                <div class="mem-pad-top-bot-50"></div>
+                <img src="~/Content/images/memom_logo.png" />
+                <div class="mem-pad-top-bot-30"></div>
+                <div class="row"><a href="@Url.Action("Index", "Login", new { area = "UserAccount"})" class="button large left">Login</a></div>
+                <div class="row"><a href="@Url.Action("Index", "Register", new { area = "UserAccount" })" class="button large left">Register</a></div>
+            </div>
+        </div>
+        <div class="row show-for-medium-up">
+            <h1 class="pad-top-left-10 pad-topbotright-10 mem-color">Moment to memory</h1>
+            <h3 class="pad-top-left-10 pad-topbotright-10 mem-color">Face detection and image recognition to intelligently tag your loved ones</h3>
+        </div>
+
+
+
+        <!-- End Content -->
+
+    </div>
+</div>
+

@@ -1,0 +1,103 @@
+﻿@model PagedList.IPagedList<UserAccount>
+@using PagedList.Mvc;
+@using Memom.Entities.Models;
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>User Listing</h2>
+<h5>Total Registered User Count : <span class="wda-color"> @ViewBag.UserCount </span></h5>
+
+<p>
+    @Html.ActionLink("Create New User will redirect to Register page", "Create")
+</p>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        @Html.ValidationSummary(true)
+
+        <div class="row">
+            <div class="large-3 columns">
+                <label>Search By:</label>
+                <input type="radio" name="SearchBy" value="Email" id="SearchByEmail" checked=@((ViewBag.SearchBy == "Email")) /><label for="SearchByEmail">Email</label>
+                <input type="radio" name="SearchBy" value="Name" id="SearchByName" checked=@((ViewBag.SearchBy == "Name")) /><label for="SearchByName">Display Name</label>
+            </div>
+            <div class="large-6 columns">
+                <input type="text" name="SearchOn" placeholder="Enter Email or Name to search" value=@ViewBag.SearchOn />
+            </div>
+            <div class="large-3 columns">
+                <input type="submit" value="Search" class="button tiny" />
+            </div>
+        </div>
+
+    </div>
+}
+
+<table class="table">
+    <tr>
+        <th>
+            Id
+        </th>
+        <th width="140">
+            Email (UserName)
+        </th>
+        <th width="140">
+            DisplayName
+        </th>
+        <th>
+            Last Login
+        </th>
+        <th>
+            Last Failed Login
+        </th>
+        <th>
+            Last Updated
+        </th>
+
+
+        <th width="220">--Action--</th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Key)
+        </td>
+        <td>
+            <span data-tooltip aria-haspopup="true" class="has-tip" title="@Html.DisplayFor(modelItem => item.FirstName) &nbsp; @Html.DisplayFor(modelItem => item.LastName)">
+                @Html.DisplayFor(modelItem => item.Email)
+            </span>
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DisplayName)
+        </td>
+        <td>
+            @Html.ValueFor(modelItem => item.LastLogin, "{0:dd MMM yyyy hh:mm:ss tt}")
+        </td>
+        <td>
+            @Html.ValueFor(modelItem => item.LastFailedLogin, "{0:dd MMM yyyy hh:mm:ss tt}")
+        </td>
+        <td>
+            @Html.ValueFor(modelItem => item.LastUpdated, "{0:dd MMM yyyy hh:mm:ss tt}")
+        </td>
+
+        <td >
+            @Html.ActionLink("Edit", "Edit", new { id = item.Key }) |
+            @Html.ActionLink("Details", "Details", new { id = item.Key }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.Key }) |
+            @Html.ActionLink("Scores", "usermemberscores", "games", new {area = "UserApp",email = item.Email }, null)
+        </td>
+    </tr>
+}
+
+</table>
+
+<br />
+Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+@Html.PagedListPager(Model, page => Url.Action("Index", new { page, searchby = @ViewBag.SearchBy, searchon=@ViewBag.SearchOn }))

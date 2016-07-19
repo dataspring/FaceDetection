@@ -1,0 +1,37 @@
+﻿@model MemomMvc52.Areas.UserAccount.Models.PasswordResetInputModel
+@{
+    ViewBag.Title = "Reset Password";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<div class="row">
+    <div class="small-12 medium-6 medium-centered large-5 large-centered columns">
+
+        @using (Html.BeginForm())
+        {
+            @Html.ValidationSummary("Please correct the following errors")
+            @Html.AntiForgeryToken()
+
+            <fieldset class="editor small">
+                <legend>@ViewBag.Title</legend>
+                @Html.EditorForModel()
+                <div>
+                    <button class="small">Submit</button>
+                </div>
+            </fieldset>
+        }
+        @*@using (Html.BeginForm("Confirm", "PasswordReset", FormMethod.Get))
+        {
+            <fieldset>
+                <legend>Confirm Your Reset from Key (sent via Email)</legend>
+                <p>
+                    <label for="id">Key</label>
+                    <input id="id" name="id" />
+                </p>
+                <p ><button class="small">Submit</button></p>
+            </fieldset>
+        }*@
+
+    </div>
+</div>

@@ -1,0 +1,28 @@
+﻿@model PagedList.IPagedList<FaceViewAlbumInstance>
+@using PagedList.Mvc;
+@using Memom.Entities.Models;
+
+@{
+    ViewBag.Title = "Photo Listing of Member Detected";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h3>View Photo Album</h3>
+
+<div class="row">
+    <div class="small-12 medium-12 large-10 large-centered medium-centered columns">
+
+        <ul class="clearing-thumbs small-block-grid-3 medium-block-grid-6 large-block-grid-8" data-clearing>
+            @foreach(var item in Model)
+            {
+               <li>
+                   <a href="@(item.AiFolderPath+item.PhotoFile)"><img data-caption="" src="@(item.ThumbnailFile == null ? item.AiFolderPath + item.PhotoFile : item.AiFolderPath + item.ThumbnailFile)" /></a>
+               </li> 
+            }
+        </ul>
+
+    </div>
+
+</div>
+
+

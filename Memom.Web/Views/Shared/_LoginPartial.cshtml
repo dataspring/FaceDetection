@@ -1,0 +1,48 @@
+﻿@using Microsoft.AspNet.Identity
+@if (Request.IsAuthenticated)
+{
+    <script>
+    </script>
+    <ul class="right">
+        @*<li>Hello, @User.Identity.Name</li>
+        <li>
+            @using (Html.BeginForm("LogOff", "Home", FormMethod.Post, new { id = "logoutForm" }))
+            {
+                @Html.AntiForgeryToken()
+                <a href="javascript:logoutAll()">Log off</a>
+            }        </li>*@
+
+        <li class="has-dropdown">
+            <a href="#">Hello, @User.Identity.Name</a>
+            <ul class="dropdown">
+                <li><a href="@Url.Action("Index", "Logout", new { area = "UserAccount"})">Log Off</a></li>
+                @*<li><a href="@Url.Action("Verify", "Register", new { area = "UserAccount" })">Verify Email</a></li>*@
+                <li><a href="@Url.Action("Index", "ChangePassword", new { area = "UserAccount" })">Change Password</a></li>
+                @*<li><a href="@Url.Action("Index", "ChangeUsername", new { area = "UserAccount" })">Change Username</a></li>*@
+                @*<li><a href="@Url.Action("Index", "ChangeEmail", new { area = "UserAccount" })">Change Email</a></li>*@
+                @*<li><a href="@Url.Action("Index", "ChangeMobile", new { area = "UserAccount" })">Change Mobile</a></li>*@
+                @*<li><a href="@Url.Action("Index", "CloseAccount", new { area = "UserAccount" })">Close Account</a></li>*@
+            </ul>
+        </li>
+
+    </ul>
+}
+else
+{
+    <ul class="right">
+        <li class="name">
+            @*<span style="font-size:smaller; color:white; line-height:45px; padding-left:10px">Hello! &nbsp; WebApp Loaded @@ SG time : @TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTime.UtcNow, "Singapore Standard Time").ToString("dd MMM yyyy HH:mm:ss") &nbsp;</span>*@
+            <span style="font-size:smaller; color:white; line-height:45px; padding-left:10px">
+                Hello!  
+            </span>
+        </li>
+        <li class="has-dropdown">
+            <a href="@Url.Action("Index", "Login", new { area = "UserAccount"})">Login</a>
+            <ul class="dropdown">
+                @*<li><a href="@Url.Action("Index", "LinkedAccount", new { area = "UserAccount"})">Social Login</a></li>*@
+                <li><a href="@Url.Action("Index", "Register", new { area = "UserAccount" })">Register</a></li>
+                <li><a href="@Url.Action("Index", "PasswordReset", new { area = "UserAccount" })">Forgot Password</a></li>
+            </ul>
+        </li>
+    </ul>
+}

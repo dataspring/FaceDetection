@@ -1,0 +1,24 @@
+﻿@model MemomMvc52.Areas.UserAccount.Models.ChangePasswordInputModel
+@{
+    ViewBag.Title = "Change Password";
+}
+<h2>@ViewBag.Title</h2>
+
+<div class="row">
+    <div class="small-12 medium-6 medium-centered large-5 large-centered columns">
+        @using (Html.BeginForm())
+        {
+            @Html.ValidationSummary("Error")
+            @Html.AntiForgeryToken()
+
+            <fieldset>
+                <legend>Enter Old and New Credentials</legend>
+                @Html.EditorForModel()
+                <div>
+                    <button class="small">Change Password</button>
+                </div>
+            </fieldset>
+        }
+
+    </div>
+</div>

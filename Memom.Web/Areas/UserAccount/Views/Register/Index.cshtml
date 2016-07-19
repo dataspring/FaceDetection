@@ -1,0 +1,62 @@
+﻿@model MemomMvc52.Areas.UserAccount.Models.RegisterInputModel
+@{
+    ViewBag.Title = "Register";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<div class="row">
+    <div class="small-12 medium-6 medium-centered large-5 large-centered columns">
+
+        @using (Html.BeginForm())
+        {
+            @Html.ValidationSummary("Please correct the following errors")
+            @Html.AntiForgeryToken()
+
+            <fieldset>
+                <legend>@ViewBag.Title</legend>
+                @Html.EditorForModel()
+                @*new { htmlAttributes = new { @id = "myPassword" } }*@
+                <div>
+                    <button class="small">Register</button>
+                </div>
+            </fieldset>
+        }
+        @*@using (Html.BeginForm("Confirm", "ChangeEmail", FormMethod.Get))
+        {
+            <fieldset>
+                <legend>Confirm Your Registration from Key (sent via Email)</legend>
+                <p>
+                    <label for="id">Key</label>
+                    <input id="id" name="id" />
+                </p>
+                <p><button class="small">Submit</button></p>
+            </fieldset>
+        }
+        @using (Html.BeginForm("Cancel", "Register", FormMethod.Get))
+        {
+            <fieldset>
+                <legend>Cancel Your Registration from Key (sent via Email)</legend>
+                <p>
+                    <label for="id">Key</label>
+                    <input id="id" name="id" />
+                </p>
+                <p><button class="small">Submit</button></p>
+            </fieldset>
+        }*@
+
+    </div>
+</div>
+
+@section scripts {
+    <script type="text/javascript" src="~/Scripts/strength.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function ($) {
+            $("#Password").strength();
+        });
+    </script>
+}
+
+@section head {
+    <link href="~/stylesheets/strength.css" rel="stylesheet" />
+}

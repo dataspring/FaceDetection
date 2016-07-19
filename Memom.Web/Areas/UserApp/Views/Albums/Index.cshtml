@@ -1,0 +1,67 @@
+﻿@model PagedList.IPagedList<AlbumScores>
+@using PagedList.Mvc;
+@using Memom.Entities.Models;
+
+@{
+    ViewBag.Title = "Albums Listing";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<ul class="inline-list">
+    <li><h3>Manage Albums</h3></li>
+    <li><a href="/userapp/albums/add" class="button small">Add</a></li>
+</ul>
+
+
+<div class="row">
+    <div class="small-12 medium-10 medium-centered large-8 large-centered columns">
+
+        <ul class="no-bullet">
+            @foreach (var item in Model)
+            {
+            <li>
+                <div class="row">
+                    <div class="small-6 columns">
+                        @item.Name
+                    </div>
+                    <div class="small-6 columns">
+                        <small class="right">Created On: @Html.ValueFor(modelItem => item.Created, "{0:dd MMM yyyy}") </small>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="small-4 columns">
+                        <img src="@item.RandomDisplayPhoto" />
+                    </div>
+                    <div class="small-8 columns">
+                        <div class="row">
+                            <div class="small-4 columns">
+                                <a href="#"> <img src="~/Content/images/PhotoAdd.png" /> </a>
+                            </div>
+                            <div class="small-4 columns">
+                                <a href="#"> <img src="~/Content/images/PhotoDelete.png" /> </a>
+                            </div>
+                            <div class="small-4 columns">
+                                <a href="/userapp/albums/viewalbum?albumkey=@item.Key"> <img src="~/Content/images/ViewImage2.png" /> </a>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <ul class="inline-list" style="margin-left:0px" >
+                                <li>Total : @item.TotalPhotos</li>
+                                <li><span data-tooltip aria-haspopup="true" class="has-tip" title="To be filled up : @item.MemberTagDetails">Tagged : @item.TotalTagged</span> </li>
+                                <li>Left : @(item.TotalPhotos-@item.TotalTagged)</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <hr />
+            }
+        </ul>
+
+
+    </div>
+
+</div>
+
+

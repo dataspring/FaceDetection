@@ -1,0 +1,221 @@
+﻿@model UserAccount
+@using Memom.Entities.Models;
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>View User Account</h4>
+    <p>
+        @Html.ActionLink("Edit", "Edit", new { id = Model.Key }) |
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+    <hr />
+    <table>
+        <tr>
+            <th width="250">Property</th>
+            <th>Value</th>
+        </tr>
+
+        <tr>
+            <td>
+                @Html.DisplayNameFor(model => model.Username)
+            </td>
+
+            <td>
+                @Html.DisplayFor(model => model.Username)
+            </td>
+        </tr>
+
+
+        <tr>
+            <td>
+                @Html.DisplayNameFor(model => model.FirstName)
+            </td>
+
+            <td>
+                @Html.DisplayFor(model => model.FirstName)
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                @Html.DisplayNameFor(model => model.LastName)
+            </td>
+
+            <td>
+                @Html.DisplayFor(model => model.LastName)
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                @Html.DisplayNameFor(model => model.DisplayName)
+            </td>
+
+            <td>
+                @Html.DisplayFor(model => model.DisplayName)
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                @Html.DisplayNameFor(model => model.Age)
+            </td>
+
+            <td>
+                @Html.DisplayFor(model => model.Age)
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                @Html.DisplayNameFor(model => model.IsAccountClosed)
+            </td>
+
+            <td>
+                @Html.DisplayFor(model => model.IsAccountClosed)
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                @Html.DisplayNameFor(model => model.AccountClosed)
+            </td>
+
+            <td>
+                @Html.DisplayFor(model => model.AccountClosed)
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                @Html.DisplayNameFor(model => model.IsLoginAllowed)
+            </td>
+
+            <td>
+                @Html.DisplayFor(model => model.IsLoginAllowed)
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                @Html.DisplayNameFor(model => model.LastLogin)
+            </td>
+
+            <td>
+                @Html.DisplayFor(model => model.LastLogin)
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                @Html.DisplayNameFor(model => model.LastFailedLogin)
+            </td>
+
+            <td>
+                @Html.DisplayFor(model => model.LastFailedLogin)
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                @Html.DisplayNameFor(model => model.FailedLoginCount)
+            </td>
+
+            <td>
+                @Html.DisplayFor(model => model.FailedLoginCount)
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                @Html.DisplayNameFor(model => model.PasswordChanged)
+            </td>
+
+            <td>
+                @Html.DisplayFor(model => model.PasswordChanged)
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                @Html.DisplayNameFor(model => model.RequiresPasswordReset)
+            </td>
+
+            <td>
+                @Html.DisplayFor(model => model.RequiresPasswordReset)
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                @Html.DisplayNameFor(model => model.Email)
+            </td>
+
+            <td>
+                @Html.DisplayFor(model => model.Email)
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                @Html.DisplayNameFor(model => model.IsAccountVerified)
+            </td>
+
+            <td>
+                @Html.DisplayFor(model => model.IsAccountVerified)
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                @Html.DisplayNameFor(model => model.LastFailedPasswordReset)
+            </td>
+
+            <td>
+                @Html.DisplayFor(model => model.LastFailedPasswordReset)
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                @Html.DisplayNameFor(model => model.FailedPasswordResetCount)
+            </td>
+
+            <td>
+                @Html.DisplayFor(model => model.FailedPasswordResetCount)
+            </td>
+        </tr>
+
+
+        <tr>
+            <td>
+                @Html.DisplayNameFor(model => model.Created)
+            </td>
+
+            <td>
+                @Html.DisplayFor(model => model.Created)
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                @Html.DisplayNameFor(model => model.LastUpdated)
+            </td>
+
+            <td>
+                @Html.DisplayFor(model => model.LastUpdated)
+            </td>
+        </tr>
+
+        </table>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

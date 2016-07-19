@@ -1,0 +1,251 @@
+﻿@model MemomMvc52.Areas.UserApp.Models.MemberAddInput
+@{
+    ViewBag.Title = "Add a Member";
+}
+@{
+    ViewBag.Title = "Add";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section head{
+<link href="~/stylesheets/dropzone.css" rel="stylesheet" />
+}
+
+<h2>Add a Member</h2>
+
+<div class="row">
+    <div class="small-12 medium-6 medium-centered large-5 large-centered columns">
+
+        <form action="/api/UploadMemberandFace" method="post" enctype="multipart/form-data" class="dropzone" id="my-awesome-dropzone">
+            @Html.ValidationSummary("Please correct the following errors")
+            @Html.AntiForgeryToken()
+
+            <fieldset>
+                <legend>@ViewBag.Title</legend>
+                <div class="dropzone-previews"></div> <!-- this is were the previews should be shown. -->
+
+                <div class="fallback">
+                    <input name="file" type="file" multiple />
+                </div>
+
+                @Html.LabelFor(model => model.Name)
+                @Html.TextBoxFor(model => model.Name)
+
+                @Html.LabelFor(model => model.DisplayName)
+                @Html.TextBoxFor(model => model.DisplayName)
+
+                @Html.LabelFor(model => model.Relation)
+                @Html.TextBoxFor(model => model.Relation, new {placeholder="Son or Daughter or Mom" })
+
+                @Html.LabelFor(model => model.DateOfBirth)
+                @*@Html.TextBoxFor(model => model.DateOfBirth, new { type = "date", placeholder = "dd/MM/yyyy", pattern = "\\d{1,2}/\\d{1,2}/\\d{4}" })*@
+                @Html.TextBoxFor(model => model.DateOfBirth, new { placeholder = "dd/MM/yyyy" })
+
+                <div>
+                    <button type="submit" class="medium hide" id="FormSubmitAdd">Add</button>
+                </div>
+                <div>
+                    <ul class="small-block-grid-2">
+                        <li><button class="expand fileinput-button dz-clickable" type="button">Append Photo</button></li>
+                        <li><button class="expand start" id="AddPhotoButt" type="button">Add Member</button></li>
+                    </ul>
+                    @*<div id="total-progress" class="progress">
+                        <span class="meter" style="width:0%"></span>
+                    </div>*@
+                </div>
+                <div>
+                    <p id="AddFormMsg"></p>
+                </div>
+            </fieldset>
+        </form>
+
+</div>
+</div>
+
+@section scripts {
+    <script src="~/Scripts/moment.min.js"></script>
+    <script src="~/Scripts/dropzone.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function ($) {
+
+                function isDate(txtDate)
+                {
+                    //var currVal = txtDate;
+                    //if(currVal == '')
+                    //    return false;
+    
+                    //var rxDatePattern = /^(\d{1,2})(\/|-)(\d{1,2})(\/|-)(\d{4})$/; //Declare Regex
+                    //var dtArray = currVal.match(rxDatePattern); // is format OK?
+    
+                    //if (dtArray == null) 
+                    //    return false;
+    
+                    ////Checks for mm/dd/yyyy format.
+                    //dtMonth = dtArray[3];
+                    //dtYear= dtArray[5];
+                    //dtDay = dtArray[1];        
+    
+                    //if (dtMonth < 1 || dtMonth > 12) 
+                    //    return false;
+                    //else if (dtDay < 1 || dtDay> 31) 
+                    //    return false;
+                    //else if ((dtMonth==4 || dtMonth==6 || dtMonth==9 || dtMonth==11) && dtDay ==31) 
+                    //    return false;
+                    //else if (dtMonth == 2) 
+                    //{
+                    //    var isleap = (dtYear % 4 == 0 && (dtYear % 100 != 0 || dtYear % 400 == 0));
+                    //    if (dtDay> 29 || (dtDay ==29 && !isleap)) 
+                    //        return false;
+                    //}
+                    //return true;
+
+                    if (moment(txtDate, ["DD/MM/YYYY", "DD MMM YYYY", "DD-MMM-YYYY", "DD-MM-YYYY", "MMM DD, YYYY"]).isValid()) {
+                        $("#DateOfBirth").val(moment(txtDate, ["DD/MM/YYYY", "DD MMM YYYY", "DD-MMM-YYYY", "DD-MM-YYYY"]).format("DD/MM/YYYY"));
+                        return true;
+                    }
+                    else
+                        return false;
+
+                }
+
+            
+
+
+            function validateForm(dropZone)
+            {
+                if ( $("#Name").val().trim() == '')
+                {
+                    $("#AddFormMsg").text('Name cannot be empty').addClass("mem-red");
+                    return false;
+                }
+                if ($("#DisplayName").val().trim() == '') {
+                    $("#AddFormMsg").text('DisplayName cannot be empty').addClass("mem-red");
+                    return false;
+                }
+                if ($("#Relation").val().trim() == '') {
+                    $("#AddFormMsg").text('Relation cannot be empty').addClass("mem-red");
+                    return false;
+                }
+                if ($("#DateOfBirth").val().trim() == '') {
+                    $("#AddFormMsg").text('Date of Birth cannot be empty').addClass("mem-red");
+                    return false;
+                }
+
+                if (!isDate($("#DateOfBirth").val()))
+                {
+                    $("#AddFormMsg").text('Invalid Date, Please correct date format/numerals').addClass("mem-red");
+                    return false;
+                }
+
+                if (dropZone.files.length == 0)
+                {
+                    $("#AddFormMsg").text('Please don\'t forget to drop a image for face detection below').addClass("mem-red");
+                    return false;
+                }
+
+                    
+                $("#AddFormMsg").text('');
+                return true;
+            }
+
+            Dropzone.options.myAwesomeDropzone = { // The camelized version of the ID of the form element
+
+                // The configuration we've talked about above
+                addRemoveLinks: true,
+                autoProcessQueue: false,
+                uploadMultiple: true,
+                parallelUploads: 2,
+                maxFiles: 1,
+                maxFilesize: 10,
+                acceptedFiles: 'image/*',
+                dictDefaultMessage: "drop file zone ..",
+                clickable: ".fileinput-button", // Define the element that should be used as click trigger to select files.
+
+
+                // The setting up of the dropzone
+                init: function () {
+                    var displayMsg;
+                    var myDropzone = this;
+                    $("#AddFormMsg").empty();
+
+                    $('#AddPhotoButt').click(function (e) {
+                        $('#FormSubmitAdd').click();
+                    });
+
+                    // First change the button to actually tell Dropzone to process the queue.
+                    this.element.querySelector("button[type=submit]").addEventListener("click", function (e) {
+                        // Make sure that the form isn't actually being sent.
+                        e.preventDefault();
+                        e.stopPropagation();
+                        if (validateForm(myDropzone))
+                            myDropzone.processQueue();
+                    });
+
+                    // Update the total progress bar
+                    //this.on("totaluploadprogress", function (progress) {
+                    //    document.querySelector("#total-progress .meter").style.width = progress + "%";
+                    //});
+
+                    //// Hide the total progress bar when nothing's uploading anymore
+                    //this.on("queuecomplete", function (progress) {
+                    //    document.querySelector("#total-progress").style.opacity = "0";
+                    //});
+
+                    // Listen to the sendingmultiple event. In this case, it's the sendingmultiple event instead
+                    // of the sending event because uploadMultiple is set to true.
+                    this.on("sendingmultiple", function () {
+                        // Gets triggered when the form is actually being sent.
+                        // Hide the success button or the complete form.
+                        //alert('Starting send');
+                        $("#AddFormMsg").text('starting upload...').addClass("mem-color");
+                    });
+                    this.on("successmultiple", function (files, response) {
+                        // Gets triggered when the files have successfully been sent.
+                        // Redirect user or notify of success.
+                        //alert(JSON.stringify(response));
+                        if (response.IsAddOk)
+                        {
+                            displayMsg = 'File Uploaded successfully on ' + response.UpdatedTimestamp;
+                            if (response.IsFaceDetectionOk)
+                            {
+                                displayMsg += ' Faces Detected : ' + response.FacesDetected;
+                                displayMsg += '\r\n Remarks : ' + response.ErrorMsg;
+                                displayMsg += '\r\n  redirecting to edit member page for further changes and viewing';
+                            }
+                            else
+                            {
+                                displayMsg += ' Error in Face Detection : ' + response.ErrorMsg;
+                                displayMsg += '\r\n redirecting to edit member page to retag a new face';
+                            }
+
+                            $("#AddFormMsg").text(displayMsg).addClass("mem-color");
+
+                            setTimeout(function () {
+                                window.location.href = "/userapp/member/viewstatus?memberid=" + response.MemberId;
+                            }, 2500);
+                            
+
+                            //delay a bit
+                            
+                            //redirect
+                        }
+                        else
+                        {
+                            displayMsg = 'Error encountered : ' + response.UpdatedTimestamp + '\r\n' + response.ErrorMsg;
+                            displayMsg += '\r\n  refresh the page and redo';
+                            $("#AddFormMsg").text(displayMsg).addClass("mem-red");
+                        }
+                        myDropZone.removeAllFiles();
+
+                    });
+                    this.on("errormultiple", function (files, response) {
+                        // Gets triggered when there was an error sending the files.
+                        // Maybe show form again, and notify user of error
+                        $("#AddFormMsg").text('Error encountered : ' + xhr.ErrorMsg + '\r\n' + response.ErrorMsg);
+                    });
+                }
+
+            }
+        });
+    </script>
+}

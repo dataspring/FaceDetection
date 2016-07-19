@@ -1,0 +1,107 @@
+﻿<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+    <meta charset="utf-8" />
+
+    @*Set the viewport width to device width for mobile *@
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>@ViewBag.Title</title>
+    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+
+    @Styles.Render("~/Content/css")
+
+    @RenderSection("head", required: false)
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body class="fullWidthBg">
+    <header>
+        <!--style="padding-bottom:20px"-->
+        <nav class="top-bar" data-topbar>
+            <ul class="title-area">
+                <!-- Title Area -->
+
+                <li class="name">
+                    <a href="javascript:history.back()" class="left show-for-small-down">
+                        @*<h1 style="color:white">&nbsp;&nbsp; < </h1>*@
+                        <img src="~/Content/images/ArrowLeft32.png" style="padding-top:6px; padding-left:10px" />
+                    </a>
+                    <a href="/" class="left">
+                        @*Memom IntelliFace*@
+                        <h1 style="color:white">&nbsp; Memom IntelliFace</h1>
+                    </a>
+                </li>
+                <li class="toggle-topbar menu-icon"><a href="#"><span></span></a></li>
+            </ul>
+            <section class="top-bar-section">
+                <ul class="left">
+                    <!--Home-->
+                    <li class="show-for-large-up"><a href="/">Home</a></li>
+                    <!--About-->
+                    <li class="show-for-large-up"><a href="/about">About</a></li>
+                    <!--Dashboard-->
+                    <li><a href="/UserAccount/Home">Dashboard</a></li>
+                    <!--Member-->
+                    <li><a href="/userapp/member">Members</a></li>
+                    <!--Album-->
+                    <li><a href="/userapp/albums">Albums</a></li>
+
+                    @*<li class="show-for-large-up"><a href="/contact">Contact Us</a></li>*@
+                    @*<li class="divider"></li>*@
+
+                    @Html.Partial("_AdminLinks")
+
+                </ul>
+                @Html.Partial("_LoginPartial")
+            </section>
+        </nav>
+    </header>
+
+    <!-- Top Navigation -->
+    @*<div class="row">
+            <div class="large-12 columns">
+                <!-- Navigation -->
+
+                <!-- End Navigation -->
+            </div>
+            <hr />
+        </div>*@
+
+    <!-- Main Content -->
+    <div class="row">
+        <div class="large-12 columns">
+            @RenderBody()
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="stickyfooter">
+        <hr style="margin:3px 0px 3px 0px">
+        <div class="row">
+            <div class="large-12 columns">
+
+                <div class="row">
+                    <div class="large-6 medium-4 small-6 columns">
+                        <p>&copy; @DateTime.Now.Year - <a href="http://memom.me" target="_blank">memom</a></p>
+                    </div>
+                    <div class="large-6 medium-8 small-6 columns">
+                        <ul class="inline-list right">
+                            <li><a href="/TermsOfUse">Terms</a></li>
+                            <li><a href="/Privacy">Privacy</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/foundation")
+    <script>
+        $(document).foundation();
+    </script>
+    @*Use the Scripts section to define page specific scripts*@
+    @RenderSection("scripts", required: false)
+</body>
+</html>

@@ -1,0 +1,17 @@
+﻿@using Microsoft.AspNet.Identity
+@if (Request.IsAuthenticated)
+{
+    if (User.IsInRole("Admin"))
+    { 
+
+    <!--Admin Stuff-->
+    <li class="has-dropdown">
+        <a href="#">Admin</a>
+        <ul class="dropdown">
+            <li><a href="/UserApp/Users">Manage Users</a></li>
+            @*<li><a href="#">Monitor</a></li>
+            <li><a href="#">Analytics</a></li>*@
+        </ul>
+    </li>
+    }
+}

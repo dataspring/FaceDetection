@@ -1,0 +1,97 @@
+﻿@model Member
+@using PagedList.Mvc;
+@using Memom.Entities.Models;
+@{
+    ViewBag.Title = "Remove";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Removal Status</h2>
+
+<div class="row">
+    <div class="small-12 medium-8 medium-centered large-6 large-centered columns">
+
+        @if (Model == null)
+        {
+            <div class="alert card">
+                <img src="~/Content/images/ID-Wrong.png" />
+                <div class="card-divider">
+                    Can't retrieve member details!
+                </div>
+                <div class="card-section">
+                    <h4>This member is not part of your member group or you are trying to access some other member or this member info is unavailable now</h4>
+                </div>
+            </div>
+        }
+        else
+        {
+            bool faceDetected = Model.IsFaceDetected ?? false;
+            string srcString;
+            if (faceDetected)
+            {
+                srcString = Model.FolderPath + Model.FaceImage;
+            }
+            else
+            {
+                srcString = "~/UserContent/Member/GirlTagFace2.png";
+            }
+
+            <ul class="mem-grid show-for-medium-up" style="margin-left:0px">
+                <li>
+                    <div class="th" style="background-image:url(@(Model.FolderPath + Model.DetectedFaceImage));">
+                        <span class="badge right"><img src="@(@srcString)" /></span>
+                    </div>
+                </li>
+            </ul>
+
+
+            <div class="success card">
+                <img class="show-for-small-down" src="@(srcString)" />
+                <div class="card-divider">
+                    Family Member: @Model.DisplayName
+                </div>
+                <div class="card-section">
+                    <h6>@Model.Name has been successfully removed from family membership</h6>
+                </div>
+            </div>
+        }
+
+
+        <h6>How do you want to proceed further?</h6>
+
+        <div class=" show-for-small-down">
+            <a href="/userapp/member/add" class="button expand">Add Member</a>
+            <a href="/userapp/member" class="button expand">Manage Family</a>
+            <a href="/userapp/albums" class="button expand">View Albums</a>
+        </div>
+        <div class=" show-for-medium-only">
+            <div class="row">
+                <div class="medium-12 columns medium-centered large-12 columns large-centered">
+                    <ul class="inline-list">
+                        <li><a href="/userapp/member/add" class="button medium">Add Member</a></li>
+                        <li><a href="/userapp/member" class="button medium">Manage Family</a></li>
+                        <li><a href="@Url.Action("Index", "Register", new { area = "UserAccount" })" class="button medium">View Albums</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class=" show-for-large-up">
+            <div class="row">
+                <div class="medium-12 columns medium-centered large-12 columns large-centered">
+                    <ul class="inline-list">
+                        <li><a href="/userapp/member/add" class="button large">Add Member</a></li>
+                        <li><a href="/userapp/member" class="button large">Manage Family</a></li>
+                        <li><a href="/userapp/albums" class="button large">View Albums</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+        <!-- End Content -->
+
+    </div>
+</div>

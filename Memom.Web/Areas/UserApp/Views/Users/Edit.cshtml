@@ -1,0 +1,116 @@
+﻿@model MemomMvc52.Areas.UserApp.Models.UserAccountInput
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Edit</h2>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <h4>UserAccounts</h4>
+        <hr />
+        @Html.ValidationSummary(true)
+        @Html.HiddenFor(model => model.UserKey)
+
+        @Html.HiddenFor(model => model.Username)
+        @Html.HiddenFor(model => model.Email)
+
+        <div class="row">
+            <div class="large-3 small-4 columns">
+                @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "right inline", @for = "" })
+            </div><div class="large-9 small-8 columns">
+                      <label class="wda-color inline">@Html.ValueFor(model => model.Email)</label>
+            </div>
+        </div>
+
+        <div class="row"><div class="large-3 small-4 columns">
+            @Html.LabelFor(model => model.FirstName, htmlAttributes: new { @class = "right inline", @for = "" })
+            </div><div class="large-9 small-8 columns">
+                @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @id = "", @placeholder = "" } })
+                @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="row"><div class="large-3 small-4 columns">
+            @Html.LabelFor(model => model.LastName, htmlAttributes: new { @class = "right inline", @for = "" })
+            </div><div class="large-9 small-8 columns">
+                @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @id = "", @placeholder = "" } })
+                @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="row"><div class="large-3 small-4 columns">
+            @Html.LabelFor(model => model.DisplayName, htmlAttributes: new { @class = "right inline", @for = "" })
+            </div><div class="large-9 small-8 columns">
+                @Html.EditorFor(model => model.DisplayName, new { htmlAttributes = new { @id = "", @placeholder = "" } })
+                @Html.ValidationMessageFor(model => model.DisplayName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="row"><div class="large-3 small-4 columns">
+            @Html.LabelFor(model => model.Age, htmlAttributes: new { @class = "right inline", @for = "" })
+            </div><div class="large-9 small-8 columns">
+                @Html.EditorFor(model => model.Age, new { htmlAttributes = new { @id = "", @placeholder = "" } })
+                @Html.ValidationMessageFor(model => model.Age, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="row"><div class="large-3 small-4 columns">
+            @Html.LabelFor(model => model.IsAccountClosed, htmlAttributes: new { @class = "right inline", @for = "" })
+            </div><div class="large-9 small-8 columns">
+                <div class="checkbox">
+                    @Html.EditorFor(model => model.IsAccountClosed)
+                    @Html.ValidationMessageFor(model => model.IsAccountClosed, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="row"><div class="large-3 small-4 columns">
+            @Html.LabelFor(model => model.IsLoginAllowed, htmlAttributes: new { @class = "right inline", @for = "" })
+            </div><div class="large-9 small-8 columns">
+                <div class="checkbox">
+                    @Html.EditorFor(model => model.IsLoginAllowed)
+                    @Html.ValidationMessageFor(model => model.IsLoginAllowed, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="row"><div class="large-3 small-4 columns">
+            @Html.LabelFor(model => model.RequiresPasswordReset, htmlAttributes: new { @class = "right inline", @for = "" })
+            </div><div class="large-9 small-8 columns">
+                <div class="checkbox">
+                    @Html.EditorFor(model => model.RequiresPasswordReset)
+                    @Html.ValidationMessageFor(model => model.RequiresPasswordReset, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="row"><div class="large-3 small-4 columns">
+            @Html.LabelFor(model => model.IsAccountVerified, htmlAttributes: new { @class = "right inline", @for = "" })
+            </div><div class="large-9 small-8 columns">
+                <div class="checkbox">
+                    @Html.EditorFor(model => model.IsAccountVerified)
+                    @Html.ValidationMessageFor(model => model.IsAccountVerified, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+
+        <div class="row">
+            <input type="submit" value="Save" class="button" />
+            &nbsp;&nbsp;
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+
+</div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

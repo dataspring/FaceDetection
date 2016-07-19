@@ -1,0 +1,213 @@
+﻿@model MemomMvc52.Areas.UserApp.Models.AlbumAddInput
+@{
+    ViewBag.Title = "Add Photos";
+}
+@{
+    ViewBag.Title = "Add";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section head{
+<link href="~/stylesheets/dropzone.css" rel="stylesheet" />
+}
+
+<h2>Add a Album &amp; Photos</h2>
+
+<div class="row">
+    <div class="small-12 medium-8 medium-centered large-6 large-centered columns">
+
+        <form action="/api/AddAlbumAndPhotos" method="post" enctype="multipart/form-data" class="dropzone" id="my-awesome-dropzone">
+            @Html.ValidationSummary("Please correct the following errors")
+            @Html.AntiForgeryToken()
+
+            <fieldset>
+                <legend>@ViewBag.Title</legend>
+                <div class="dropzone-previews"></div> <!-- this is were the previews should be shown. -->
+
+                <div class="fallback">
+                    <input name="file" type="file" multiple />
+                </div>
+
+                @Html.HiddenFor(model => model.UserKey, new { text = Model.UserKey })
+                @Html.HiddenFor(model => model.Email, new { text = Model.Email })
+
+                @Html.LabelFor(model => model.Name)
+                @Html.TextBoxFor(model => model.Name)
+
+                @Html.LabelFor(model => model.Description)
+                @Html.TextBoxFor(model => model.Description)
+
+                <div>
+                    <button type="submit" class="medium hide" id="FormSubmitAdd">Add</button>
+                </div>
+                <div>
+                    <ul class="small-block-grid-3">
+                        <li><button class="expand fileinput-button dz-clickable" type="button">Append Files</button></li>
+                        <li><button class="expand start" id="AddPhotoButt" type="button">Start Upload</button></li>
+                        <li><button class="expand cancel" type="reset">Cancel Upload</button></li>
+                    </ul>
+                    <div id="total-progress" class="progress">
+                        <span class="meter" style="width:0%"></span>
+                    </div>
+                </div>
+                <div>
+                    <p id="AddFormMsg"></p>
+                    <p class="mem-pad-top-bot-10" id="FileCount"></p>
+                </div>
+            </fieldset>
+        </form>
+        @*<button id="AddPhotoButt" class="medium" style="margin-top:20px">Add Photo</button>*@
+
+
+
+
+    </div>
+</div>
+
+@section scripts {
+    <script src="~/Scripts/moment.min.js"></script>
+    <script src="~/Scripts/dropzone.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function ($) {
+
+                function isDate(txtDate)
+                {
+                    if (moment(txtDate, ["DD/MM/YYYY", "DD MMM YYYY", "DD-MMM-YYYY", "DD-MM-YYYY"]).isValid()) {
+                        $("#DateOfBirth").val(moment(txtDate, ["DD/MM/YYYY", "DD MMM YYYY", "DD-MMM-YYYY", "DD-MM-YYYY"]).format("DD/MM/YYYY"));
+                        return true;
+                    }
+                    else
+                        return false;
+                }
+
+            
+
+
+            function validateForm(dropZone)
+            {
+                if ( $("#Name").val().trim() == '')
+                {
+                    $("#AddFormMsg").text('Album Name cannot be empty').addClass("mem-red");
+                    return false;
+                }
+                if ($("#Description").val().trim() == '') {
+                    $("#AddFormMsg").text('Description cannot be empty').addClass("mem-red");
+                    return false;
+                }
+                //if ($("#DisplayOrder").val().trim() == '') {
+                //    $("#AddFormMsg").text('Relation cannot be empty').addClass("mem-red");
+                //    return false;
+                //}
+
+                if (dropZone.files.length == 0)
+                {
+                    $("#AddFormMsg").text('Please don\'t forget to drop a image for face detection below').addClass("mem-red");
+                    return false;
+                }
+                    
+                $("#AddFormMsg").text('');
+                return true;
+            }
+
+            Dropzone.options.myAwesomeDropzone = { // The camelized version of the ID of the form element
+
+                // The configuration we've talked about above
+                addRemoveLinks: true,
+                autoProcessQueue: false,
+                uploadMultiple: true,
+                parallelUploads: 30,
+                maxFiles: 30,
+                maxFilesize: 8,
+                acceptedFiles: 'image/*',
+                dictDefaultMessage: "drop file zone ..",
+                clickable: ".fileinput-button", // Define the element that should be used as click trigger to select files.
+
+
+                // The setting up of the dropzone
+                init: function () {
+                    var displayMsg;
+                    var myDropzone = this;
+                    $("#AddFormMsg").empty();
+
+                    $('#AddPhotoButt').click(function (e) {
+                        $('#FormSubmitAdd').click();
+                    });
+
+                    $(".cancel").click = function () {
+                        myDropzone.removeAllFiles(true);
+                    };
+
+                    // First change the button to actually tell Dropzone to process the queue.
+                    this.element.querySelector("button[type=submit]").addEventListener("click", function (e) {
+                        // Make sure that the form isn't actually being sent.
+                        e.preventDefault();
+                        e.stopPropagation();
+                        if (validateForm(myDropzone))
+                            myDropzone.processQueue();
+                    });
+
+                    // Update the total progress bar
+                    this.on("totaluploadprogress", function (progress) {
+                        document.querySelector("#total-progress .meter").style.width = progress + "%";
+                    });
+
+                    // Hide the total progress bar when nothing's uploading anymore
+                    this.on("queuecomplete", function (progress) {
+                        document.querySelector("#total-progress").style.opacity = "0";
+                    });
+
+
+                    // Listen to the sendingmultiple event. In this case, it's the sendingmultiple event instead
+                    // of the sending event because uploadMultiple is set to true.
+                    this.on("sendingmultiple", function () {
+                        // Gets triggered when the form is actually being sent.
+                        // Hide the success button or the complete form.
+                        //alert('Starting send');
+                        $("#AddFormMsg").text('starting upload...').addClass("mem-color");
+                        document.querySelector("#total-progress").style.opacity = "1";
+                    });
+                    this.on("successmultiple", function (files, response) {
+                        // Gets triggered when the files have successfully been sent.
+                        // Redirect user or notify of success.
+                        //alert(JSON.stringify(response));
+                        if (response.IsAddOk)
+                        {
+                            displayMsg = 'File Uploaded successfully on ' + response.UpdatedTimestamp;
+                            displayMsg += '\r\n Remarks : ' + response.FileNames;
+                            displayMsg += '\r\n redirecting to edit member page for further changes and viewing';
+
+                            $("#AddFormMsg").text(displayMsg).addClass("mem-color");
+
+                            //delay a bit //redirect
+                            setTimeout(function () {
+                                window.location.href = "/userapp/albums/"
+                            }, 2500);
+                            
+                        }
+                        else
+                        {
+                            displayMsg = 'Error encountered : ' + response.UpdatedTimestamp + '\r\n' + response.ErrorMsg;
+                            displayMsg += '\r\n refresh the page and redo';
+                            $("#AddFormMsg").text(displayMsg).addClass("mem-red");
+                        }
+                        $("#FileCount").text(myDropZone.getAcceptedFiles().length).addClass("mem-red");
+                        myDropZone.removeAllFiles();
+                        
+
+                    });
+                    this.on("errormultiple", function (files, response) {
+                        // Gets triggered when there was an error sending the files.
+                        // Maybe show form again, and notify user of error
+                        $("#AddFormMsg").text('Error encountered : ' + xhr.ErrorMsg + '\r\n' + response.ErrorMsg);
+                    });
+
+                }
+
+            }
+        });
+
+
+
+
+    </script>
+}

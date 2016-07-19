@@ -1,0 +1,90 @@
+﻿@model IEnumerable<Scores>
+@using PagedList.Mvc;
+@using Memom.Entities.Models;
+@{
+    ViewBag.Title = "Memom IntelliFace - Home";
+}
+
+<h1>Dashboard</h1>
+
+@*<ul class="small-block-grid-2 medium-block-grid-3 large-block-grid-4 mem-grid">
+    <li>
+        <div class="th " style="background-image:url(/UserContent/Member/F12EA1FB-2CDF-4E0F-93F2-FD64E7C2E2F8.jpg);">
+            <span class="large success badge right">3</span>
+        </div>RoadSenseAPI.Models
+    </li>
+    <li>
+        <div class="th " style="background-image:url(/UserContent/Member/37EA9271-00AE-484B-A3C3-AEE5B5B4CAE1.jpg);">
+            <span class="medium alert badge right">A</span>
+        </div>
+    </li>
+    <li>
+        <div class="th " style="background-image:url(/UserContent/Member/371E6B67-0DFC-4005-B76F-5547BA1EA9CC.jpg);">
+            <span class="small dark badge">C</span>
+        </div>
+    </li>
+    <li>
+        <div class="th" style="background-image:url(/UserContent/Member/5E4E88A1-1C83-4457-8423-F42459FCDB61.gif);">
+            <span class="large warning badge">B</span>
+        </div>
+    </li>
+</ul>*@
+
+
+<div class="show-for-medium-up mem-pad-top-bot-30"></div>
+
+
+<ul class="small-block-grid-2 medium-block-grid-4 large-block-grid-4 mem-grid">
+    @foreach (var item in Model)
+    {
+        <li class="dashboardimage  @(item.TotalFaceTags > 0 ? "mem-cursor-pointer" : "")" data-facealbumview="@Html.Raw(@item.TotalFaceTags > 0 ? "/userapp/albums/viewfacemember?memberkey=" + @item.MemberKey: "#")">
+            <div class="th overlay-container" style="background-image:url(@item.FaceImage);">
+                <span class=" large @Html.Raw(@item.TotalFaceTags < 0 ? "alert" : @item.TotalFaceTags > 0 ? "success" : "warning") badge right">
+                    @Html.Raw(@item.TotalFaceTags < 0 ? "-" : @item.TotalFaceTags.ToString())
+                </span>
+                <div class="overlay">@Html.Raw(@item.TotalFaceTags < 0 ? "Add a Member" : @item.TotalFaceTags > 0 ? "Add Photos" : @item.DetectedFaceImage == null ? "Tag a Face" : "Add Photos") </div>
+            </div>
+        </li>
+    }
+</ul>
+
+
+    <div class=" show-for-small-down">
+        <a href="/userapp/member" class="button expand">Manage Members</a>
+        <a href="/userapp/albums" class="button expand">Manage Albums &amp; Photos</a>
+        <a href="/userapp/albums" class="button expand">Search Photos</a>
+    </div>
+
+    <div class=" show-for-medium-up">
+        <div class="row">
+            <div class="medium-12 columns medium-centered large-10 columns large-centered">
+                <a href="/userapp/member" class="button large inline">Manage Members</a>
+                <a href="/userapp/albums" class="button large inline">Manage Albums  &amp; Photos</a>
+                <a href="/userapp/albums" class="button large inline">Search Photos</a>
+            </div>
+        </div>
+
+    </div>
+
+    @section scripts {
+        <script type="text/javascript">
+            $(document).ready(function ($) {
+                function reHeight() {
+                    $(".mem-grid > li").each(function () {
+                        //var width = $(this).width();
+                        //var height = $(this).height();
+                        $(this).height($(this).width() * 0.65);
+                    });
+                }
+                reHeight();
+                $(window).resize(reHeight);
+
+                //member click on dashboard
+                $('.dashboardimage').click(function () {
+                    if ($(this).attr("data-facealbumview") != "#")
+                        window.open($(this).attr("data-facealbumview"), "_self");
+                });
+
+            });
+        </script>
+    }
