@@ -4,7 +4,10 @@
 * text=auto
 linguist-language=C#
 Memom.Web/Scripts/* linguist-vendored
+Memom.Web/sass/* linguist-vendored
 *.cshtml linguist-vendored
+*.scss linguist-vendored
+*.css linguist-vendored
 
 ###############################################################################
 # Set default behavior for command prompt diff.
